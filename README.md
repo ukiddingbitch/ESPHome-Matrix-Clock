@@ -105,6 +105,7 @@ if (phase < 7000) {
   local = phase - 9000;
 }
 ```
+## Display Sequence
 | Screen | Content | Display Duration |
 |---|---|---:|
 | 0 | Time (HH:MM:SS) | 7 seconds |
@@ -188,13 +189,6 @@ wifi:
 
 Replace the example access point password with a secure password before deploying the device. The fallback access point is not the same as the normal Wi-Fi connection.
 
-## Display Sequence
-
-| Screen | Content | Duration |
-|---|---|---|
-| 1 | Current time (`HH:MM:SS`) | 7 seconds |
-| 2 | Date (`DD.MM.YY`) | 2 seconds |
-| 3 | Full weekday name | 3 seconds |
 
 The three screens repeat in a 12-second cycle. Each screen transition uses an 800 ms horizontal animation.
 
