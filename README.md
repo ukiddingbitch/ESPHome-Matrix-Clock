@@ -47,27 +47,79 @@ esp32:
     type: esp-idf
 ```
 
-### Display Configuration
 
-Four MAX7219 chips are connected in series to create a 32 × 8 pixel display.
+## Custom Display Rendering
 
-```yaml
-spi:
-  clk_pin: GPIO7
-  mosi_pin: GPIO6
+The display uses a custom C++ lambda to render every pixel on the 32 × 8 LED matrix. Instead of using a standard text font, the clock uses custom bitmap patterns for digits, punctuation, and supported letters.
 
-display:
-  - platform: max7219digit
-    id: matrix_display
-    cs_pin: GPIO10
-    num_chips: 4
-    intensity: 10
-    rotate_chip: 0
-    scroll_enable: false
-    update_interval: 50ms
+### Custom Digit Bitmap
+
+Each digit is represented by three columns of 8 bits. Every bit determines whether an individual LED pixel is enabled.
+
+```cpp
+const uint8_t digits[10][3] = {
+  {0xFF, 0x81, 0xFF},
+  {0x02, 0xFF, 0x00},
+  {0xF9, 0x89, 0x8F},
+  {0x81, 0x89, 0xFF},
+  {0x1F, 0x10, 0xFC},
+  {0x8F, 0x89, 0xF9},
+  {0xFF, 0x89, 0xF9},
+  {0x01, 0xF1, 0x0F},
+  {0xFF, 0x89, 0xFF},
+  {0x9F, 0x91, 0xFF}
+};
 ```
 
-The display is rendered using a custom C++ lambda. Each pixel is calculated individually to control the digits, separators, date, weekday text, and transition animations.
+### Rendering Functions
+
+The lambda contains several functions responsible for drawing the display:
+
+| Function | Purpose |
+|---|---|
+| `glyph()` | Returns bitmap data for supported digits, letters, and punctuation |
+| `clock_pixel()` | Calculates pixels for the current time |
+| `date_pixel()` | Calculates pixels for the date |
+| `day_pixel()` | Calculates pixels for the scrolling weekday name |
+| `screen_pixel()` | Selects the pixel-rendering function for the active screen |
+
+### Animation and Screen Timing
+
+The display cycles through three screens using a 12-second repeating sequence:
+
+```cpp
+uint32_t phase = millis() % 12000;
+
+if (phase < 7000) {
+  screen = 0;
+  local = phase;
+} else if (phase < 9000) {
+  screen = 1;
+  local = phase - 7000;
+} else {
+  screen = 2;
+  local = phase - 9000;
+}
+```
+
+Each screen transition uses an 800 ms horizontal animation. The weekday name scrolls across the display during its dedicated screen.
+
+### Pixel Output
+
+The display is cleared before each rendering update. The lambda then calculates the state of every pixel and lights the corresponding LED when required.
+
+```cpp
+it.fill(Color::BLACK);
+
+for (int x = 0; x < 32; x++) {
+  for (int y = 0; y < 8; y++) {
+    // Calculate pixel state and render the result.
+  }
+}
+```
+
+The complete rendering implementation, including the font definitions, date and time formatting, scrolling logic, and animations, is available in `matrixclock.yaml`.
+
 
 ### Time Synchronization
 
