@@ -118,7 +118,7 @@ for (int x = 0; x < 32; x++) {
 }
 ```
 
-The complete rendering implementation, including the font definitions, date and time formatting, scrolling logic, and animations, is available in `matrixclock.yaml`.
+The complete rendering implementation, including the font definitions, date and time formatting, scrolling logic, and animations, is available in [ESPHome Matrix clock full yaml.txt](https://github.com/ukiddingbitch/ESPHome-Matrix-Clock/blob/main/ESPHome%20Matrix%20clock%20full%20yaml.txt).
 
 
 ### Time Synchronization
