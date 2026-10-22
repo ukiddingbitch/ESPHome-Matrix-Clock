@@ -115,8 +115,6 @@ The same pattern is configured for midnight, noon, and 18:00.
 
 ### Wi-Fi Configuration
 
-Network credentials are stored separately in the ESPHome `secrets.yaml` file.
-
 ```yaml
 wifi:
   ssid: !secret wifi_ssid
@@ -124,16 +122,6 @@ wifi:
   fast_connect: false
   power_save_mode: none
   reboot_timeout: 0s
-```
-
-A fallback access point is also configured:
-
-```yaml
-ap:
-  ssid: "matrixclock"
-  password: "12345678"
-  channel: 11
-  ap_timeout: 0s
 ```
 
 Replace the example access point password with a secure password before deploying the device. The fallback access point is not the same as the normal Wi-Fi connection.
@@ -155,29 +143,3 @@ The time separators blink every second. The weekday name scrolls horizontally ac
 The display uses a custom bitmap font defined in the C++ lambda. Digits are stored as three-column bitmap patterns, while punctuation and letters are implemented using individual character definitions.
 
 This approach allows the display layout and animations to be controlled directly without relying on a standard text-rendering font.
-
-## Software Requirements
-
-- ESPHome
-- ESP32-C3 DevKitM-1
-- ESP-IDF framework
-- A Wi-Fi network for NTP synchronization
-
-## Installation
-
-1. Add the configuration to ESPHome as `matrixclock.yaml`.
-2. Configure `wifi_ssid` and `wifi_password` in `secrets.yaml`.
-3. Connect the MAX7219 display modules to the specified GPIO pins.
-4. Compile and flash the firmware to the ESP32-C3.
-5. Verify the NTP synchronization messages in the ESPHome logs.
-
-Example `secrets.yaml` entries:
-
-```yaml
-wifi_ssid: "YOUR_WIFI_SSID"
-wifi_password: "YOUR_WIFI_PASSWORD"
-```
-
-## License
-
-Add your preferred open-source license here.
