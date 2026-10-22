@@ -105,7 +105,13 @@ if (phase < 7000) {
   local = phase - 9000;
 }
 ```
+| Screen | Content | Display Duration |
+|---|---|---:|
+| 0 | Time (HH:MM:SS) | 7 seconds |
+| 1 | Date (DD.MM.YY) | 2 seconds |
+| 2 | Weekday name | 3 seconds |
 
+The complete cycle repeats every 12 seconds. Each screen transition uses an 800 ms horizontal animation.
 Each screen transition uses an 800 ms horizontal animation. The weekday name scrolls across the display during its dedicated screen.
 
 ### Pixel Output
