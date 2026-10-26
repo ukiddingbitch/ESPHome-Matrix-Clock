@@ -186,7 +186,51 @@ wifi:
   power_save_mode: none
   reboot_timeout: 0s
 ```
+### Animation and Screen Timing
 
+The display cycles through three screens using a 65-second repeating sequence:
+
+```cpp
+uint32_t phase = millis() % 65000;
+
+if (phase < 60000) {
+  screen = 0;
+  local = phase;
+} else if (phase < 62000) {
+  screen = 1;
+  local = phase - 60000;
+} else {
+  screen = 2;
+  local = phase - 62000;
+}
+```
+
+## Display Sequence
+
+| Screen | Content | Display Duration |
+|---|---|---:|
+| 0 | Time (HH:MM:SS) | 60 seconds |
+| 1 | Date (DD.MM.YY) | 2 seconds |
+| 2 | Weekday name | 3 seconds |
+
+The complete cycle repeats every 65 seconds. Each screen transition uses an 800 ms horizontal animation. The weekday name scrolls across the display during its dedicated screen.
+
+The time separators blink every second, and the weekday name scrolls horizontally across the display.
+
+### Display Brightness
+
+The MAX7219 LED matrix brightness is configured to level 3 for comfortable viewing and reduced light output.
+
+```yaml
+display:
+  - platform: max7219digit
+    id: matrix_display
+    cs_pin: GPIO10
+    num_chips: 4
+    intensity: 3
+```
+
+The `intensity` parameter controls the LED matrix brightness on a scale from 0 to 15. A value of 3 provides relatively low brightness suitable for indoor use.
 Replace the example access point password with a secure password before deploying the device. The fallback access point is not the same as the normal Wi-Fi connection.
 
 
