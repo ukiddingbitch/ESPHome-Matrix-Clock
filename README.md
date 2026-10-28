@@ -243,3 +243,7 @@ The time separators blink every second. The weekday name scrolls horizontally ac
 The display uses a custom bitmap font defined in the C++ lambda. Digits are stored as three-column bitmap patterns, while punctuation and letters are implemented using individual character definitions.
 
 This approach allows the display layout and animations to be controlled directly without relying on a standard text-rendering font.
+
+### ⚠️ ESP32-C3 MINI Board Comparison — IMPORTANT: READ BEFORE BUYING
+
+![ESP32-C3 MINI Board Comparison](https://raw.githubusercontent.com/ukiddingbitch/ESPHome-Matrix-Clock/main/Images/esp32c3mini_comparision.png)
